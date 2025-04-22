@@ -1,0 +1,32 @@
+<div class="admin-list-container">
+    <h2>Liste des Administrateurs</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>first_name</th>
+          <th>last_name</th>
+          <th>Email</th>
+          <th>gender</th>
+          <th>birth_date</th>
+          <th>phone</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let admin of admins[0]?.admins">
+            <td>{{ admin.id }}</td>
+            <td>{{ admin.first_name }}</td>
+            <td>{{ admin.last_name}}</td>
+            <td>{{ admin.email }}</td>
+            <td>{{ admin.gender }}</td>
+            <td>{{ admin.birth_date }}</td>
+            <td>{{ admin.phone }}</td>
+            <td>{{ admin.status }}</td>
+
+          </tr>
+      </tbody>
+    </table>
+    <div *ngIf="admins.length === 0">Aucun administrateur trouvé</div>
+  </div>
+  

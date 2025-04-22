@@ -1,0 +1,93 @@
+@use 'sass:color';
+
+// Palette pastel améliorée
+$green: #76c7a3;          // Vert plus foncé, mais toujours doux
+$green-dark: color.adjust($green, $lightness: -10%);
+$green-light: color.adjust($green, $lightness: 20%);
+$orange: #ffb385;         // Orange pastel
+$orange-light: color.adjust($orange, $lightness: 15%);
+$white: #fffdf6;
+$grey: #f2f2f2;
+$text-color: #333;
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, $white, $green-light);
+  padding: 2rem;
+}
+
+.custom-form {
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid $green-light;
+  transition: 0.3s;
+
+  h2 {
+    text-align: left;
+    color: $green-dark;
+    font-size: 2.5rem;  // Taille augmentée du titre
+    font-weight: 600;
+    margin-bottom: 1.5rem;  // Un peu d'espace sous le titre
+  }
+
+  nz-form-item {
+    margin-bottom: 1.5rem;
+  }
+
+  nz-form-label {
+    font-weight: 600;
+    color: $green-dark;
+  }
+
+  nz-input-group input[nz-input] {
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    border: 1.5px solid $green;
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+      border-color: $green-dark;
+      box-shadow: 0 0 0 2px rgba($green, 0.2);
+    }
+  }
+
+  .ant-checkbox-wrapper {
+    font-size: 0.95rem;
+    color: $text-color;
+  }
+
+  .ant-form-item-explain-error {
+    color: $orange;
+    font-size: 0.875rem;
+  }
+
+  button[nz-button] {
+    width: 100%;
+    background-color: $green;
+    color: white;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    &:hover {
+      background-color: $green-dark;
+      transform: scale(1.02);
+    }
+
+    &:disabled {
+      background-color: $green-light;
+      color: #999;
+      cursor: not-allowed;
+    }
+  }
+}

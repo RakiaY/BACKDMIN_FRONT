@@ -1,0 +1,105 @@
+<div class="admin-management-container">
+    <button nz-button nzType="primary" (click)="showAddForm = !showAddForm">
+      {{ showAddForm ? 'Annuler' : 'Ajouter un administrateur' }}
+    </button>
+  
+    @if (showAddForm) {
+      <div class="form-container">
+        <form #adminForm="ngForm" (ngSubmit)="onSubmitAdmin(adminForm)">
+          <nz-form-item>
+            <nz-form-label>Nom</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="newAdmin.first_name" name="first_name" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Prénom</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="newAdmin.last_name" name="last_name" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Genre</nz-form-label>
+            <nz-form-control>
+              <nz-select [(ngModel)]="newAdmin.gender" name="gender" required>
+                <nz-option nzValue="male" nzLabel="Homme"></nz-option>
+                <nz-option nzValue="female" nzLabel="Femme"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Téléphone</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="newAdmin.phone" name="phone" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Email</nz-form-label>
+            <nz-form-control>
+              <input nz-input type="email" [(ngModel)]="newAdmin.email" name="email" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          @if (!isEditMode) {
+            <nz-form-item>
+              <nz-form-label>Mot de passe</nz-form-label>
+              <nz-form-control>
+                <input nz-input type="password" [(ngModel)]="newAdmin.password" name="password" required>
+              </nz-form-control>
+            </nz-form-item>
+          }
+  
+          <button nz-button nzType="primary" type="submit" [disabled]="adminForm.invalid">
+            {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+          </button>
+        </form>
+      </div>
+    }
+  
+    <nz-table #adminTable [nzData]="admins" class="admin-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Genre</th>
+          <th>Téléphone</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (admin of adminTable.data; track admin.id) {
+          <tr>
+            <td>{{ admin.first_name }}</td>
+            <td>{{ admin.last_name }}</td>
+            <td>{{ admin.email }}</td>
+            <td>{{ admin.gender === 'male' ? 'Homme' : 'Femme' }}</td>
+            <td>{{ admin.phone }}</td>
+            <td>
+              <nz-select 
+                [ngModel]="admin.status" 
+                (ngModelChange)="admin.id ? onStatusChange(admin.id, $event) : null"
+>
+                <nz-option nzValue="Active" nzLabel="Actif"></nz-option>
+                <nz-option nzValue="Inactive" nzLabel="Inactif"></nz-option>
+                <nz-option nzValue="Suspended" nzLabel="Suspendu"></nz-option>
+              </nz-select>
+            </td>
+            <td>
+              <button nz-button nzType="link" (click)="admin.id ? confirmDeleteAdmin(admin.id) : null">
+                <span nz-icon nzType="edit"></span> Modifier
+              </button>
+              <button nz-button nzType="link" nzDanger (click)="confirmDeleteAdmin(admin.id)">
+                <span nz-icon nzType="delete"></span> Supprimer
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
