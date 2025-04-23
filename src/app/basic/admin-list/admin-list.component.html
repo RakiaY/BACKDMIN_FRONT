@@ -1,5 +1,67 @@
 <div class="admin-list-container">
     <h2>Liste des Administrateurs</h2>
+    <button nz-button nzType="primary" (click)="showAddForm = !showAddForm">
+      {{ showAddForm ? 'Annuler' : 'Ajouter un administrateur' }}
+    </button>
+  
+    @if (showAddForm) {
+      <div class="form-container">
+        <form #adminForm="ngForm" (ngSubmit)="onSubmitAdmin(adminForm)">
+          <nz-form-item>
+            <nz-form-label>Nom</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="newAdmin.first_name" name="first_name" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Prénom</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="newAdmin.last_name" name="last_name" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Genre</nz-form-label>
+            <nz-form-control>
+              <nz-select [(ngModel)]="newAdmin.gender" name="gender" required>
+                <nz-option nzValue="Male" nzLabel="Male"></nz-option>
+                <nz-option nzValue="Female" nzLabel="Female"></nz-option>
+                <nz-option nzValue="Other" nzLabel="Other"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Téléphone</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="newAdmin.phone" name="phone" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-label>Email</nz-form-label>
+            <nz-form-control>
+              <input nz-input type="email" [(ngModel)]="newAdmin.email" name="email" required>
+            </nz-form-control>
+          </nz-form-item>
+  
+          @if (!isEditMode) {
+            <nz-form-item>
+              <nz-form-label>Mot de passe</nz-form-label>
+              <nz-form-control>
+                <input nz-input type="password" [(ngModel)]="newAdmin.password" name="password" required>
+              </nz-form-control>
+            </nz-form-item>
+          }
+  
+          <button nz-button nzType="primary" type="submit" [disabled]="adminForm.invalid">
+            {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+          </button>
+        </form>
+      </div>
+    }
+
     <table>
       <thead>
         <tr>
@@ -10,7 +72,9 @@
           <th>gender</th>
           <th>birth_date</th>
           <th>phone</th>
-          <th>Status</th>
+          <th>Statut</th>
+          <th>Actions</th>
+
         </tr>
       </thead>
       <tbody>
@@ -22,7 +86,22 @@
             <td>{{ admin.gender }}</td>
             <td>{{ admin.birth_date }}</td>
             <td>{{ admin.phone }}</td>
-            <td>{{ admin.status }}</td>
+            <td><select 
+                [(ngModel)]="admin.status"
+                (change)="updateStatus(admin.id, admin.status)"
+                class="status-select"
+              >
+                <option *ngFor="let option of statusOptions" 
+                        [value]="option.value"
+                        [selected]="option.value === admin.status">
+                  {{ option.label }}
+                </option>
+              </select>  </td>
+              <td>
+                <button (click)="viewAdmin(admin.id)">View</button>
+                <button (click)="onEditAdmin(admin)">Edit</button>
+              </td>
+              
 
           </tr>
       </tbody>
